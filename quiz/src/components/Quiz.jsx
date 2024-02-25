@@ -22,6 +22,8 @@ const Quiz = () => {
           >
             Restart
           </div>
+          <br></br>
+          Made by Apurva
         </div>
       )}
       {!quizState.showResults && (
