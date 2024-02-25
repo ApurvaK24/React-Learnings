@@ -1,61 +1,49 @@
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 import Question from "./Question";
-import { useReducer } from "react";
 import { QuizContext } from "../contexts";
 
-//make it global so moved to contexts.js
-/*const initialState ={
-    cq: 0,
-    questions:[],
-}
-
-const reducer = (state, action) =>{
-    if(action.type=== 'NEXT_QUESTION'){
-        return {...state, cq: state.cq+1};
-    }
-    return state;
-}*/
 const Quiz = () => {
-    const [quizState, dispatch]= useContext(QuizContext);
-    console.log("quizState", quizState)
-    //moved it to context.js 
- /*const [state, dispatch] = useReducer(reducer, initialState);
- console.log("render",state);*/
-    //useReducerHOOK
-   
-    const testclick = () => {
-        console.log("clicked");
-        dispatch({type: "NEXT_QUESTION"});
-        
-    }
-    return (
-        <div className="quiz">
+  const [quizState, dispatch] = useContext(QuizContext);
+  return (
+    <div className="quiz">
+      {quizState.showResults && (
+        <div className="results">
+          <div className="congratulations">Congratulations</div>
+          <div className="results-info">
+            <div>You have completed the quiz.</div>
             <div>
-                <div className="score">Question 1/8</div>
-                {/*pass props of here*/}
-                <Question  />
-                <div className="next-button" onClick={testclick}>
-                    Next Question </div>
+              You've got {quizState.correctAnswersCount} of{" "}
+              {quizState.questions.length}
             </div>
+          </div>
+          <div
+            className="next-button"
+            onClick={() => dispatch({ type: "RESTART" })}
+          >
+            Restart
+          </div>
         </div>
-    )
+      )}
+      {!quizState.showResults && (
+        <div>
+          <div className="score">
+            Question {quizState.currentQuestionIndex + 1}/
+            {quizState.questions.length}
+          </div>
+          <Question />
+          <div
+            className="next-button"
+            onClick={() => dispatch({ type: "NEXT_QUESTION" })}
+          >
+            Next question
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Quiz;
 
 
-    //simple useStatehook
-    /*const [cq,setcq] = useState(0);
-    const testclick = () =>{
-        console.log("clicked");
-        setcq(cq+1);
-    }
-    return (
-        <div className="quiz">
-            <div>
-                <div className="score">Question 1/8</div>
-                <Question />
-                <div className="next-button" onClick={testclick}>
-                    Next Question {cq}</div>
-            </div>
-        </div>
-    )*/
-}
-export default Quiz
+
