@@ -1,6 +1,8 @@
 import React from "react";
 import Answer from "./Answer";
-const Question = () => {
+//props
+const Question = ({questions}) => {
+  console.log("Question",questions);
     return (
         <div>
             <div className="question">Text of Question</div>
